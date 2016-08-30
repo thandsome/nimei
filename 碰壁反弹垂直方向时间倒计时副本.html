@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>碰壁反弹垂直方向时间倒计时</title>
+	<style type="text/css">
+		#wrap{
+			width: 600px;
+			height: 300px;
+			border: 5px solid black;
+			position: relative;
+		}
+		#inner{
+			width: 100px;
+			height: 100px;
+			border: 1px solid skyblue;
+			padding: 20px;
+			border-radius: 30px;
+			font-size: 18px;
+			color: white;
+			text-align: center;
+			lighting-color: 100px;
+			background-color: #009688;
+			position: absolute;
+			left: 0;
+			top: 0;
+		}
+	</style>
+</head>
+<body>
+	<div id="wrap">
+		<div id="inner"></div>
+	</div>
+</body>
+<script type="text/javascript">
+	// 垂直方向的移动
+	var wrap = document.getElementById("wrap");
+	var inner = document.getElementById("inner");
+
+	// 垂直方向的速度 v(votecity：速度)
+	var vY = 2;
+	// 垂直方向的移动值
+	var innerT = 0;
+
+	setInterval(function(){
+
+		if(innerT < 0 || innerT+inner.offsetHeight > wrap.clientHeight){
+			vY = -vY;
+		}
+
+		innerT += vY;
+		inner.style.top = innerT + "px";
+	}, 100);
+
+	function getTime(){
+		var nowDate = new Date();//当前的时间
+		var futureDate = new Date("2016-10-25");//2017年1月31日的时间
+
+		// 1.1得到两个日期的时间差(毫秒数)
+		var differ = futureDate.getTime() - nowDate.getTime() ;
+		// 1.2 得到秒数
+		differ = parseInt(differ / 1000);
+
+		// 2. 天数
+		// var oDay = parseInt(differ / 60 / 60 / 24);
+		var oDay = parseInt(differ / 86400);
+
+		// 3. 小时
+		// 取余，把整天的数除掉，剩余的毫秒
+		differ = differ % 86400;
+		var oHour = parseInt(differ / 60 / 60);
+
+		// 4. 分钟
+		// 取余，把分钟的数除掉，剩余的毫秒
+		differ = differ % 3600;
+		var oMinute = parseInt(differ / 60);
+		// console.log(oMinute);
+
+		// 5. 秒
+		differ = differ % 60;
+
+		// 6.给div赋值
+		inner.innerText = "距离2016年10月25日还剩"+oDay+"天"+oHour+"小时"+oMinute+"分钟"+differ+"秒";		
+	}
+
+	getTime();
+	setInterval(function(){
+		getTime();
+	}, 1000);
+</script>
+</html>
